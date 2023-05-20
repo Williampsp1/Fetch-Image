@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "F91D4A69-0030-4C72-A6AC-E3D4BFC8ACEA",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ImageFetch.xcodeproj",
+      "identifier" : "531B07A42A13FD7A001246B2",
+      "name" : "ImageFetch"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ImageFetch.xcodeproj",
+        "identifier" : "531B07B52A13FD7C001246B2",
+        "name" : "ImageFetchTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ImageFetch.xcodeproj",
+        "identifier" : "531B07BF2A13FD7C001246B2",
+        "name" : "ImageFetchUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
