@@ -36,11 +36,11 @@ struct RandomImage: View {
                 }
             }
         }
-        .onAppear {
+        .task {
             // Get a single image
-            viewModel.getPicsumImage(string: "hello", size: 200, placeholder: UIImage(systemName: "star") ?? UIImage())
+            await viewModel.getPicsumImage(string: "what", size: 200, placeholder: UIImage(systemName: "star") ?? UIImage())
             // Get images
-            //viewModel.getPicsumImages(placeholder: UIImage(systemName: "star") ?? UIImage(), size: 200)
+            //await viewModel.getPicsumImages(placeholder: UIImage(systemName: "star") ?? UIImage(), size: 200)
         }
     }
     

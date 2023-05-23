@@ -8,13 +8,11 @@
 import XCTest
 
 final class RandomImageViewModelTests: XCTestCase {
-
+    
     func testImageFetch() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProvider())
         
-        let task = viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill")!)
-        
-        await task.value
+        await viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill") ?? UIImage())
         
         XCTAssertEqual(UIImage(systemName: "star"), viewModel.uiImage)
         XCTAssertEqual(viewModel.error, nil)
@@ -23,84 +21,80 @@ final class RandomImageViewModelTests: XCTestCase {
     func testImageFetchNoString() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProviderEmptyString())
         
-        let task = viewModel.getPicsumImage(string: "", size: 200, placeholder: UIImage(systemName: "star.fill")!)
-        
-        await task.value
+        await viewModel.getPicsumImage(string: "", size: 200, placeholder: UIImage(systemName: "star.fill") ?? UIImage())
         
         XCTAssertEqual(UIImage(systemName: "star.square"), viewModel.uiImage)
         XCTAssertEqual(viewModel.error, nil)
     }
     
-    func testGetPictures() {
+    func testGetPictures() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProvider())
         let expectation = XCTestExpectation(description: "Get pictures")
         
-        viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square")!, size: 200)
+        await viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square") ?? UIImage(), size: 200)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(50, viewModel.images.count)
-            XCTAssertEqual(UIImage(systemName: "star")!, viewModel.images[0].image)
+            XCTAssertEqual(UIImage(systemName: "star"), viewModel.images[0].image)
             XCTAssertEqual(0, viewModel.images[0].id)
             XCTAssertEqual(viewModel.error, nil)
             expectation.fulfill()
         }
         
-        wait(for:[expectation], timeout: 5)
+        await fulfillment(of:[expectation], timeout: 5)
     }
     
-    func testGetPicturesResponseError() {
+    func testGetPicturesResponseError() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProviderResponseError())
         let expectation = XCTestExpectation(description: "Get pictures")
         
-        viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square")!, size: 200)
+        await viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square") ?? UIImage(), size: 200)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(50, viewModel.images.count)
-            XCTAssertEqual(UIImage(systemName: "star.square")!, viewModel.images[0].image)
+            XCTAssertEqual(UIImage(systemName: "star.square"), viewModel.images[0].image)
             XCTAssertEqual(0, viewModel.images[0].id)
             XCTAssertEqual(viewModel.error, ImageError.ResponseError)
             expectation.fulfill()
         }
         
-        wait(for:[expectation], timeout: 5)
+        await fulfillment(of: [expectation], timeout: 5)
     }
     
-    func testGetPicturesURLError() {
+    func testGetPicturesURLError() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProviderURLError())
         let expectation = XCTestExpectation(description: "Get pictures")
         
-        viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square")!, size: 200)
+        await viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square") ?? UIImage(), size: 200)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(50, viewModel.images.count)
-            XCTAssertEqual(UIImage(systemName: "star.square")!, viewModel.images[0].image)
+            XCTAssertEqual(UIImage(systemName: "star.square"), viewModel.images[0].image)
             XCTAssertEqual(0, viewModel.images[0].id)
             XCTAssertEqual(viewModel.error, ImageError.URLError)
             expectation.fulfill()
         }
         
-        wait(for:[expectation], timeout: 5)
+        await fulfillment(of: [expectation], timeout: 5)
     }
     
-    func testGetPicturesDecodingError() {
+    func testGetPicturesDecodingError() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProviderDecodingError())
         let expectation = XCTestExpectation(description: "Get pictures")
         
-        viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square")!, size: 200)
+        await viewModel.getPicsumImages(placeholder: UIImage(systemName: "star.square") ?? UIImage(), size: 200)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(50, viewModel.images.count)
-            XCTAssertEqual(UIImage(systemName: "star.square")!, viewModel.images[0].image)
+            XCTAssertEqual(UIImage(systemName: "star.square"), viewModel.images[0].image)
             XCTAssertEqual(0, viewModel.images[0].id)
             XCTAssertEqual(viewModel.error, ImageError.DecodingError)
             expectation.fulfill()
         }
         
-        wait(for:[expectation], timeout: 5)
+        await fulfillment(of: [expectation], timeout: 5)
     }
     
     func testImageFetchResponseError() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProviderResponseError())
         
-        let task = viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill")!)
-         
-        await task.value
+        await viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill") ?? UIImage())
         
         XCTAssertEqual(UIImage(systemName: "star.fill"), viewModel.uiImage)
         XCTAssertEqual(viewModel.error, ImageError.ResponseError)
@@ -109,9 +103,7 @@ final class RandomImageViewModelTests: XCTestCase {
     func testImageFetchDecodingError() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProviderDecodingError())
         
-        let task = viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill")!)
-        
-        await task.value
+        await viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill") ?? UIImage())
         
         XCTAssertEqual(UIImage(systemName: "star.fill"), viewModel.uiImage)
         XCTAssertEqual(viewModel.error, ImageError.DecodingError)
@@ -120,12 +112,10 @@ final class RandomImageViewModelTests: XCTestCase {
     func testImageFetchURLError() async {
         let viewModel = RandomImageViewModel(imageProvider: MockImageProviderURLError())
         
-        let task = viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill")!)
-        
-        await task.value
+        await viewModel.getPicsumImage(string: "random", size: 200, placeholder: UIImage(systemName: "star.fill") ?? UIImage())
         
         XCTAssertEqual(UIImage(systemName: "star.fill"), viewModel.uiImage)
         XCTAssertEqual(viewModel.error, ImageError.URLError)
     }
-
+    
 }
