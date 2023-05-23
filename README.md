@@ -2,7 +2,7 @@
 Small project showing how to fetch images and display them
 
 Features
-- Uncomment line of code in onAppear() to show a sorted grid of 50 images or a single random image
+- Uncomment line of code in task { } to show a sorted grid of 50 images or a single random image
 - Pass in a random string, the size of the image and a placeholder image in the function.
 - Unit tests
 
